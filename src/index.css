@@ -1,0 +1,281 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 220 33% 98%;
+  --foreground: 220 10% 15%;
+  
+  --card: 0 0% 100%;
+  --card-foreground: 220 10% 15%;
+  
+  --popover: 0 0% 100%;
+  --popover-foreground: 220 10% 15%;
+  
+  --primary: 221 83% 53%;
+  --primary-foreground: 210 40% 98%;
+  
+  --secondary: 220 14% 96%;
+  --secondary-foreground: 220 10% 15%;
+  
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 8% 46%;
+  
+  --accent: 221 83% 53%;
+  --accent-foreground: 210 40% 98%;
+  
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+  
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --ring: 221 83% 53%;
+  
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: 220 40% 10%;
+  --foreground: 220 10% 98%;
+  
+  --card: 220 40% 13%;
+  --card-foreground: 220 10% 98%;
+  
+  --popover: 220 40% 13%;
+  --popover-foreground: 220 10% 98%;
+  
+  --primary: 221 83% 53%;
+  --primary-foreground: 210 40% 98%;
+  
+  --secondary: 220 40% 16%;
+  --secondary-foreground: 220 10% 98%;
+  
+  --muted: 220 40% 16%;
+  --muted-foreground: 220 10% 70%;
+  
+  --accent: 221 83% 53%;
+  --accent-foreground: 210 40% 98%;
+  
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 210 40% 98%;
+  
+  --border: 220 40% 16%;
+  --input: 220 40% 16%;
+  --ring: 221 83% 53%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .custom-scrollbar {
+    @apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-primary/20 hover:scrollbar-thumb-primary/30;
+  }
+}
+
+/* Map Controls Positioning */
+.leaflet-control-zoom {
+  @apply !mt-32;
+}
+
+/* Location Controls */
+[dir="ltr"] .location-controls {
+  @apply left-4 top-28;
+}
+
+[dir="rtl"] .location-controls {
+  @apply right-4 top-28;
+}
+
+/* Sidebar collapse button */
+.sidebar-collapse-button {
+  @apply absolute top-1/2 -translate-y-1/2 bg-primary text-primary-foreground p-2 shadow-lg z-50;
+}
+
+[dir="ltr"] .sidebar-collapse-button {
+  @apply left-0 -translate-x-full rounded-l-lg;
+}
+
+[dir="rtl"] .sidebar-collapse-button {
+  @apply right-0 translate-x-full rounded-r-lg;
+}
+
+/* RTL Support */
+[dir="rtl"] .message-bubble.sent {
+  @apply mr-auto ml-0;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: var(--radius);
+}
+
+[dir="rtl"] .message-bubble.received {
+  @apply ml-auto mr-0;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: var(--radius);
+}
+
+.leaflet-container {
+  @apply w-full h-full rounded-lg shadow-lg transition-all duration-300;
+  z-index: 0;
+}
+
+.message-bubble {
+  @apply relative px-4 py-2 rounded-lg transition-all duration-200;
+}
+
+.message-bubble.sent {
+  @apply bg-primary text-primary-foreground ml-auto;
+  border-bottom-right-radius: 4px;
+}
+
+.message-bubble.received {
+  @apply bg-secondary text-secondary-foreground mr-auto;
+  border-bottom-left-radius: 4px;
+}
+
+.venue-card {
+  @apply transform transition-all duration-300 hover:scale-[1.02] focus:scale-[1.02];
+}
+
+.map-marker {
+  @apply transition-all duration-300 hover:scale-110;
+}
+
+/* Responsive Layout */
+@layer components {
+  .app-container {
+    @apply flex h-screen bg-background relative overflow-hidden;
+  }
+
+  .map-container {
+    @apply flex-1 transition-all duration-300 relative;
+    @apply lg:mr-[400px] rtl:lg:ml-[400px] rtl:lg:mr-0;
+  }
+
+  .map-container.sidebar-collapsed {
+    @apply lg:mr-0 rtl:lg:ml-0;
+  }
+
+  .sidebar {
+    @apply fixed top-0 right-0 rtl:right-auto rtl:left-0 h-full bg-card shadow-xl;
+    @apply w-full sm:w-[400px] transition-transform duration-300;
+    @apply translate-x-full rtl:-translate-x-full;
+    @apply lg:translate-x-0 rtl:lg:translate-x-0;
+  }
+
+  .sidebar.open {
+    @apply translate-x-0 rtl:translate-x-0;
+  }
+
+  /* Mobile-optimized form */
+  .venue-form {
+    @apply max-h-[calc(100vh-4rem)] overflow-y-auto;
+    @apply p-4 sm:p-6 space-y-4;
+  }
+
+  .venue-form-field {
+    @apply space-y-2;
+  }
+
+  .venue-form-label {
+    @apply text-sm font-medium flex items-center gap-2;
+  }
+
+  .venue-form-input {
+    @apply w-full px-3 py-2 sm:py-1.5;
+    @apply text-base sm:text-sm;
+    @apply rounded-md border border-input;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring;
+    @apply touch-manipulation; /* Better touch handling */
+  }
+
+  /* Mobile-optimized buttons */
+  .action-button {
+    @apply h-10 sm:h-9;
+    @apply min-w-[44px] sm:min-w-[36px];
+    @apply touch-manipulation;
+  }
+
+  /* Mobile-optimized chat */
+  .chat-container {
+    @apply flex flex-col h-[calc(100vh-16rem)] sm:h-[calc(100vh-20rem)];
+  }
+
+  .chat-messages {
+    @apply flex-1 overflow-y-auto p-4 space-y-4;
+  }
+
+  .chat-input {
+    @apply p-4 border-t border-border;
+  }
+
+  /* Improved touch targets for mobile */
+  .mobile-touch-target {
+    @apply min-h-[44px] min-w-[44px];
+    @apply flex items-center justify-center;
+  }
+}
+
+/* Safe area insets for modern mobile browsers */
+@supports(padding: max(0px)) {
+  .app-container {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Responsive typography */
+@layer base {
+  html {
+    font-size: 16px;
+    @screen sm {
+      font-size: 14px;
+    }
+    @screen lg {
+      font-size: 16px;
+    }
+  }
+
+  h1 {
+    @apply text-2xl sm:text-3xl font-bold;
+  }
+
+  h2 {
+    @apply text-xl sm:text-2xl font-semibold;
+  }
+
+  h3 {
+    @apply text-lg sm:text-xl font-medium;
+  }
+}
+
+/* Dark mode optimizations */
+@media (prefers-color-scheme: dark) {
+  .app-container {
+    @apply bg-background text-foreground;
+  }
+
+  .venue-form-input {
+    @apply bg-card border-border;
+  }
+}
+
+/* Print styles */
+@media print {
+  .app-container {
+    @apply overflow-visible h-auto;
+  }
+
+  .sidebar,
+  .map-container {
+    @apply static w-full mr-0 ml-0;
+    @apply print:break-inside-avoid;
+  }
+}
