@@ -4,8 +4,8 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-  plugins: [
-    react(),
+  plugins: [react()],
+  base: '/26mv/',
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
